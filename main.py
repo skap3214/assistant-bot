@@ -10,7 +10,7 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-API_KEY = "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"
+OPENAI_API_KEY = "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"
 chat = ChatAnthropic()
 query = "Hi!"
 messages = [
