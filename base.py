@@ -1,6 +1,7 @@
 #Langchain
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.llms import OpenAI
 #supabase
 import supabase
 #api keys
@@ -35,6 +36,7 @@ class BaseClass():
     WHITE = '\033[37m'
     #langchain stuff
     llm = ChatOpenAI(temperature=0)
+    llm_nonchat = OpenAI(temperature=0, model_name="gpt-3.5-turbo")
     embeddings = OpenAIEmbeddings()
     #db
     supabase = supabase.create_client(config('SUPABASE_URL'), config('SUPABASE_KEY'))
