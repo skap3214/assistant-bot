@@ -6,7 +6,7 @@ I currently use Langchain as my foundation to build my bot.
 - Search (DuckDuckGo)
 - SceneXplain (image to text)
 - Math
-- File management(temporarily disabled due to unsupported langchain agent)
+- File management(temporarily disabled because it does not work :) )
 - Python repl
 - Gradio Tools (TextToImage, TextToVideo, ImageCaptioning, PromptGenerator)
 - ArXiv Tool
