@@ -15,6 +15,7 @@ I currently use Langchain as my foundation to build my bot.
 Looking to add much much more.
 
 To run the project you need to create a .env file at root dir with these keys:
+```
 #AI/LANGCHAIN
 OPENAI = 
 <!-- PINECONE =  -->
@@ -26,7 +27,7 @@ OPENAI =
 SUPABASE_URL = 
 SUPABASE_KEY = 
 SCENEXPLAIN = 
-
+```
 ## Persistent Memory
 Supabase url and incognito mode features will be added later and I currently only have boilerplate code added.
 
