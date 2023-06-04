@@ -7,6 +7,10 @@ I currently use Langchain as my foundation to build my bot.
 - SceneXplain (image to text)
 - Math
 - File management(temporarily disabled due to unsupported langchain agent)
+- Python repl
+- Gradio Tools (TextToImage, TextToVideo, ImageCaptioning, PromptGenerator)
+- ArXiv Tool
+- Terminal tool (Opens terminal at current working dir)
 
 Looking to add much much more.
 
@@ -23,4 +27,9 @@ SUPABASE_URL =
 SUPABASE_KEY = 
 SCENEXPLAIN = 
 
+## Persistent Memory
 Supabase url and incognito mode features will be added later and I currently only have boilerplate code added.
+
+## Transient Memory
+Memory currently uses the Langchain implemented ConversationTokenBufferMemory which holds most recent memory maxed to the token limit set. I am in the process of experimenting with combined memory stores but that may take a while.
+
