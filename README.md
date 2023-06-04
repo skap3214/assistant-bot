@@ -28,6 +28,11 @@ SUPABASE_URL =
 SUPABASE_KEY = 
 SCENEXPLAIN = 
 ```
+
+I have not setup UI or any sort of concrete frontend for the application. For now you will have to make do with the terminal.
+
+Navigate to tools/main.py and run that file on your terminal.
+
 ## Persistent Memory
 Supabase url and incognito mode features will be added later and I currently only have boilerplate code added.
 
