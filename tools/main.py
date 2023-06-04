@@ -23,6 +23,9 @@ from tools.math.main import math_tool
 from tools.image.main import image_tool
 from tools.human.main import human_tool
 from tools.terminal.main import terminal_tool
+from tools.arxiv.main import arxiv_tool
+from tools.python.main import python_tool
+from tools.gradio.main import gradio_tools
 
 #api keys
 from decouple import config
@@ -55,7 +58,18 @@ class CustomAgent():
             print(f"{self.base.GREEN} Incognito On. Session memory will not be saved long-term {self.base.RESET} (NOTE: Only supported option currently, will default to incognito until db is setup)")
         #Add Tools to self.tools_list
         if tools == "all":
-            self.tools_list += search_tool() + math_tool(self.llm) + image_tool() + human_tool() + terminal_tool()
+            self.tools_list.extend(
+                search_tool() +
+                math_tool(self.llm) +
+                image_tool() +
+                human_tool() +
+                terminal_tool() +
+                arxiv_tool() +
+                python_tool() +
+                gradio_tools()
+            )
+                                    
+            
         else:
             self.tools_list = tools
         
