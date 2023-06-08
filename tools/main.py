@@ -10,7 +10,7 @@ from base import BaseClass
 
 #Langchain
 from langchain.agents import load_tools
-from langchain.agents import initialize_agent
+from langchain.agents import initialize_agent, ConversationalChatAgent
 from langchain.agents import AgentType
 
 #Memory
@@ -25,7 +25,9 @@ from tools.human.main import human_tool
 from tools.terminal.main import terminal_tool
 from tools.arxiv.main import arxiv_tool
 from tools.python.main import python_tool
-from tools.gradio.main import gradio_tools
+from tools.request.main import request_tools
+from tools.spotify.main import add_song_tool
+# from tools.gradio.main import gradio_tools
 
 #api keys
 from decouple import config
@@ -41,6 +43,13 @@ class CustomAgent():
         self.tools_list = []
         self.incognito = False
         self.agent = False
+        self.prompt = '''Assistant is a large language model trained by OpenAI.
+
+Assistant is designed to be able to assist with a wide range of tasks, from answering simple questions to providing in-depth explanations and discussions on a wide range of topics. As a language model, Assistant is able to generate human-like text based on the input it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.
+
+Assistant is constantly learning and improving, and its capabilities are constantly evolving. It is able to process and understand large amounts of text, and can use this knowledge to provide accurate and informative responses to a wide range of questions. Additionally, Assistant is able to generate its own text based on the input it receives, allowing it to engage in discussions and provide explanations and descriptions on a wide range of topics.
+
+Overall, Assistant is a powerful system that can help with a wide range of tasks and provide valuable insights and information on a wide range of topics. Whether you need help with a specific question or just want to have a conversation about a particular topic, Assistant is here to assist.'''
         self.memory = ConversationTokenBufferMemory(llm=self.llm, return_messages=True, ai_prefix=name, memory_key="chat_history")
         print(f"{self.base.BLUE} {self.name} is ready to be initiated, now on standby {self.base.RESET}")
     
@@ -66,18 +75,24 @@ class CustomAgent():
                 terminal_tool() +
                 arxiv_tool() +
                 python_tool() +
-                gradio_tools()
+                request_tools() +
+                add_song_tool()
             )
-                                    
-            
+
         else:
             self.tools_list = tools
         
         print(f"Adding selected tools to {self.name} 50%")
         #Create the agent
         print("Trying to combine everything!")
-        self.agent = initialize_agent(self.tools_list, self.llm, agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, verbose=verbose, memory=self.memory)
-        print(f"{self.base.PURPLE} {self.name} is now active and ready to assist you! {self.base.RESET}")
+        self.agent = initialize_agent(
+            self.tools_list, 
+            self.llm, 
+            agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, 
+            verbose=verbose, 
+            memory=self.memory,
+            agent_kwargs={"PREFIX" : self.prompt})
+        print(f"{self.base.PURPLE}{self.name} is now active and ready to assist you! {self.base.RESET}")
         self.init = True
     
     def ask(self,query):
@@ -88,12 +103,12 @@ class CustomAgent():
             #TODO: do not chat history data to db
             pass
         else:
-            self.agent.run(input=query)
+            return self.agent.run(input=query)
 
 
 #Code to test agent
-agent = CustomAgent(name="Bob")
-agent.initiate_agent()
+agent = CustomAgent()
+agent.initiate_agent(verbose=True)
 while True:
-    query = input(f"Ask a question to {agent.name} ")
-    agent.ask(query)
+    query = input(f"\nAsk a question to {agent.name}\n")
+    print(agent.ask(query))

@@ -11,6 +11,8 @@ I currently use Langchain as my foundation to build my bot.
 - Gradio Tools (TextToImage, TextToVideo, ImageCaptioning, PromptGenerator)
 - ArXiv Tool
 - Terminal tool (Opens terminal at current working dir)
+- requests tool - can parse through webpages
+- Add Song tool - can add a song to a specific spotify playlist
 
 Looking to add much much more.
 
@@ -23,11 +25,15 @@ OPENAI =
 <!-- GOOGLE =  -->
 <!-- ELEVEN_LABS =  -->
 <!-- APIFY =  -->
+IFTTT = 
 #DB
 SUPABASE_URL = 
 SUPABASE_KEY = 
 SCENEXPLAIN = 
 ```
+To run the add song tool, create an IFTTT applet with a webhook.
+Instructions to add a spotify song over here:
+https://python.langchain.com/en/latest/modules/agents/tools/examples/ifttt.html
 
 I have not setup UI or any sort of concrete frontend for the application. For now you will have to make do with the terminal.
 
