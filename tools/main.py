@@ -114,7 +114,7 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
         self.agent = initialize_agent(
             self.tools_list, 
             self.llm, 
-            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, 
+            agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, 
             verbose=verbose, 
             return_intermediate_steps=True,
             memory=self.memory,
@@ -141,6 +141,3 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
 
         return response,db_query
 
-
-
-#Code to test agent
