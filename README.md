@@ -21,12 +21,12 @@ To run the project you need to create a .env file at root dir with these keys:
 ```
 #AI/LANGCHAIN
 OPENAI = 
+IFTTT = 
+ELEVEN_LABS = 
 <!-- PINECONE =  -->
 <!-- SERPER =  -->
 <!-- GOOGLE =  -->
-<!-- ELEVEN_LABS =  -->
 <!-- APIFY =  -->
-IFTTT = 
 #DB
 SUPABASE_URL = 
 SUPABASE_KEY = 
