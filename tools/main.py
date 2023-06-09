@@ -130,7 +130,7 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
         
         response = self.agent({"input":query})
         intermediate_steps = response['intermediate_steps']
-
+        db_query = None
         if not self.incognito:
             data = {
                 'message' : query,
