@@ -40,7 +40,18 @@ I have not setup UI or any sort of concrete frontend for the application. For no
 Navigate to tools/main.py and run that file on your terminal.
 
 ## Persistent Memory
-Supbase is used to store the long term memory. By defualt in the initiate_agent() method, the long_term_memory param is 'True'. This will get the memory from the Supabase DB. 
+Supbase is used to store the long term memory. By defualt in the initiate_agent() method, the long_term_memory param is 'True'. This will get the memory from the Supabase DB.
+
+To initialise your Supabase DB:
+Create a table called history(the name cannot be different)
+fields:
+id (primary key, int8, auto increment)
+created_at (timestampz)
+message (varchar)
+response (varchar)
+verbose (varchar)
+
+will add more fields later
 
 The incognito mode, which is a param in the initiate_agent() method as 'incoginto' is Default set to False. If you switch it on. The agent will not save the **new interactions** in the session.
 
