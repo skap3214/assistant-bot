@@ -27,6 +27,7 @@ from tools.arxiv.main import arxiv_tool
 from tools.python.main import python_tool
 from tools.request.main import request_tools
 from tools.spotify.main import add_song_tool
+from tools.google_drive.main import add_to_google_drive_tool
 # from tools.gradio.main import gradio_tools
 
 #formatting
@@ -96,7 +97,8 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
                 arxiv_tool() +
                 python_tool() +
                 request_tools() +
-                add_song_tool()
+                add_song_tool() +
+                add_to_google_drive_tool()
             )
 
         else:
@@ -112,11 +114,11 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
         self.agent = initialize_agent(
             self.tools_list, 
             self.llm, 
-            agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, 
+            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, 
             verbose=verbose, 
             return_intermediate_steps=True,
             memory=self.memory,
-            agent_kwargs={"PREFIX" : self.prompt}
+            # agent_kwargs={"PREFIX" : self.prompt}
             )
         print(f"{self.base.PURPLE}{self.name} is now active and ready to assist you! {self.base.RESET}")
         self.init = True
@@ -142,10 +144,3 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
 
 
 #Code to test agent
-agent = CustomAgent(name="Bob")
-agent.initiate_agent(verbose=True)
-while True:
-    query = input(f"\nAsk a question to {agent.name}\n")
-    print(agent.ask(query)[0]['output'])
-    print("\nPrevious Memory:\n")
-    print(agent.memory.load_memory_variables({}))
