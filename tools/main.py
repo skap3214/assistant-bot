@@ -28,6 +28,7 @@ from tools.python.main import python_tool
 from tools.request.main import request_tools
 from tools.spotify.main import add_song_tool
 from tools.google_drive.main import add_to_google_drive_tool
+from tools.elevenlabs.main import text_to_speech_tool
 # from tools.gradio.main import gradio_tools
 
 #formatting
@@ -98,7 +99,8 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
                 python_tool() +
                 request_tools() +
                 add_song_tool() +
-                add_to_google_drive_tool()
+                add_to_google_drive_tool() +
+                text_to_speech_tool()
             )
 
         else:
