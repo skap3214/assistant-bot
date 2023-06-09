@@ -13,6 +13,7 @@ I currently use Langchain as my foundation to build my bot.
 - Terminal tool (Opens terminal at current working dir)
 - requests tool - can parse through webpages
 - Add Song tool - can add a song to a specific spotify playlist
+- Add file link to google drive folder - can add any public file link to google drive (Using IFTTT)
 
 Looking to add much much more.
 
@@ -31,13 +32,13 @@ SUPABASE_URL =
 SUPABASE_KEY = 
 SCENEXPLAIN = 
 ```
-To run the add song tool, create an IFTTT applet with a webhook.
-Instructions to add a spotify song over here:
+To run the add song tool, add to google drive tool create an IFTTT applet with a webhook.
+Instructions to add an IFTTT webhook over here:
 https://python.langchain.com/en/latest/modules/agents/tools/examples/ifttt.html
 
-I have not setup UI or any sort of concrete frontend for the application. For now you will have to make do with the terminal.
+frontend development in progress
 
-Navigate to tools/main.py and run that file on your terminal.
+Navigate to main.py in the root dir and run that file on your terminal after your setup is done.
 
 ## Persistent Memory
 Supbase is used to store the long term memory. By defualt in the initiate_agent() method, the long_term_memory param is 'True'. This will get the memory from the Supabase DB.
