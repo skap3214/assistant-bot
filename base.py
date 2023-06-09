@@ -36,7 +36,7 @@ class BaseClass():
     WHITE = '\033[37m'
     #langchain stuff
     llm = ChatOpenAI(temperature=0)
-    llm_nonchat = OpenAI(temperature=0, model_name="gpt-3.5-turbo")
+    # llm_nonchat = OpenAI(temperature=0, model_name="gpt-3.5-turbo")
     embeddings = OpenAIEmbeddings()
     #db
     supabase = supabase.create_client(config('SUPABASE_URL'), config('SUPABASE_KEY'))
@@ -62,19 +62,20 @@ class BaseClass():
         except Exception as e:
             return e
     
-    def add_history(self,output):
+    def add_history(self,query:str, output:str, other_fields=dict()):
         '''
         Add all details to the supabase db
         #TODO: based on type of output, parse and add output accordingly
         '''
         pass
-    
-    def get_all_history(self):
+
+
+    def get_all_history(self,query="*"):
         '''
         returns the full history table
         '''
         try:
-            response = self.supabase.table('history').select("*").execute()
+            response = self.supabase.table('history').select(query).execute()
             return response.data
         except Exception as e:
             return e
