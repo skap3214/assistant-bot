@@ -40,7 +40,9 @@ I have not setup UI or any sort of concrete frontend for the application. For no
 Navigate to tools/main.py and run that file on your terminal.
 
 ## Persistent Memory
-Supabase url and incognito mode features will be added later and I currently only have boilerplate code added.
+Supbase is used to store the long term memory. By defualt in the initiate_agent() method, the long_term_memory param is 'True'. This will get the memory from the Supabase DB. 
+
+The incognito mode, which is a param in the initiate_agent() method as 'incoginto' is Default set to False. If you switch it on. The agent will not save the **new interactions** in the session.
 
 ## Transient Memory
 Memory currently uses the Langchain implemented ConversationTokenBufferMemory which holds most recent memory maxed to the token limit set. I am in the process of experimenting with combined memory stores but that may take a while.
