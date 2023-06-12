@@ -9,9 +9,9 @@ sys.path.append('')
 from base import BaseClass
 
 #Langchain
-from langchain.agents import load_tools
 from langchain.agents import initialize_agent, ConversationalChatAgent
 from langchain.agents import AgentType
+from langchain.experimental.plan_and_execute import PlanAndExecute, load_agent_executor, load_chat_planner
 
 #Memory
 from langchain.memory import ConversationTokenBufferMemory
@@ -28,7 +28,8 @@ from tools.python.main import python_tool
 from tools.request.main import request_tools
 from tools.spotify.main import add_song_tool
 from tools.google_drive.main import add_to_google_drive_tool
-from tools.elevenlabs.main import text_to_speech_tool
+from tools.elevenlabs.main import convert_text_to_speech
+from tools.call_my_device.main import find_my_device_tool
 # from tools.gradio.main import gradio_tools
 
 #formatting
@@ -48,6 +49,7 @@ class CustomAgent():
         self.tools_list = []
         self.incognito = False
         self.agent = False
+        self.tts = False
         self.prompt = f'''Your name is {self.name}. {self.name} is a large language model trained by OpenAI.
 
 {self.name} is designed to be able to assist with a wide range of tasks, from answering simple questions to providing in-depth explanations and discussions on a wide range of topics. As a language model, {self.name} is able to generate human-like text based on the input it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.
@@ -79,7 +81,9 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
             incognito = False, 
             debug = True, 
             tools = "all",
-            long_term_memory = True):
+            long_term_memory = True,
+            tts=False,
+            type="CRD"):
         
         #Incognito
         print(f"{self.base.PURPLE} Creating {self.name} 0% {self.base.RESET}")
@@ -100,7 +104,7 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
                 request_tools() +
                 add_song_tool() +
                 add_to_google_drive_tool() +
-                text_to_speech_tool()
+                find_my_device_tool()
             )
 
         else:
@@ -113,15 +117,25 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
         
         #Create the agent
         print("Trying to combine everything!")
-        self.agent = initialize_agent(
-            self.tools_list, 
-            self.llm, 
-            agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, 
-            verbose=verbose, 
-            return_intermediate_steps=True,
-            memory=self.memory,
-            # agent_kwargs={"PREFIX" : self.prompt}
-            )
+        if type == "CRD":
+            self.agent = initialize_agent(
+                self.tools_list, 
+                self.llm, 
+                agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, 
+                verbose=verbose, 
+                return_intermediate_steps=True,
+                memory=self.memory,
+                handle_parsing_errors=True
+                # agent_kwargs={"PREFIX" : self.prompt}
+                )
+        elif type == "PAE":
+            self.executor = load_agent_executor(self.base.llm, self.tools_list, verbose=True)
+            self.planner = load_chat_planner(self.base.llm)
+            self.agent = PlanAndExecute(memory=self.memory,planner=self.planner, executer=self.executor, verbose=True)
+        else:
+            print("Unknown agent type, please choose between CRD or PAE")
+            return 0
+        self.tts = tts
         print(f"{self.base.PURPLE}{self.name} is now active and ready to assist you! {self.base.RESET}")
         self.init = True
     
@@ -131,15 +145,18 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
             return 0
         
         response = self.agent({"input":query})
-        intermediate_steps = response['intermediate_steps']
         db_query = None
         if not self.incognito:
+            intermediate_steps = response['intermediate_steps']
             data = {
                 'message' : query,
                 'response' : response['output'],
                 'verbose' : intermediate_steps
             }
             db_query = self.base.insert_history(self.base,data)
+        
+        if self.tts:
+            convert_text_to_speech(response['output'])
 
         return response,db_query
 

@@ -14,7 +14,6 @@ class BaseClass():
     Add any base Langchain/External Lib classes needed throughout the project here
     as a var.
     Connects to Supabase as well
-    #TODO: User Auth in constructor and RLS to be modified when repo is public!!
     Some more 'UI' features for better terminal output for debugging
     ### Variables
     - llm: language model used (GPT 3.5 Turbo)
@@ -62,14 +61,6 @@ class BaseClass():
         except Exception as e:
             return e
     
-    def add_history(self,query:str, output:str, other_fields=dict()):
-        '''
-        Add all details to the supabase db
-        #TODO: based on type of output, parse and add output accordingly
-        '''
-        pass
-
-
     def get_all_history(self,query="*"):
         '''
         returns the full history table

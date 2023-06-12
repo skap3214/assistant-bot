@@ -44,3 +44,4 @@ text_to_speech = Tool.from_function(
 
 def text_to_speech_tool():
     return [text_to_speech]
+
