@@ -71,3 +71,44 @@ class BaseClass():
         except Exception as e:
             return e
 
+class FeedbackDB():
+
+    supabase = supabase.create_client(config('SUPABASE_URL'), config('SUPABASE_KEY'))
+
+    def insert_feedback(self,data : dict):
+        try:
+            response = self.supabase.table("feedback").insert(data).execute()
+            return response
+        except Exception as e:
+            return e
+
+    def delete_feedback(self,record_id : int):
+        try:
+            response = self.supabase.table("feedback").delete().eq("id", record_id).execute()
+            return response
+        except Exception as e:
+            return e
+
+    def update_feedback(self,record_id : int, data : dict):
+        try:
+            response = self.supabase.table("feedback").update(data).eq("id", record_id).execute()
+            return response
+        except Exception as e:
+            return e
+    
+    def get_all_feedback(self,query="*"):
+        '''
+        returns the full feedback table
+        '''
+        try:
+            response = self.supabase.table('feedback').select(query).execute()
+            return response
+        except Exception as e:
+            return e
+    
+    def get_most_recent(self):
+        try:
+            response = self.supabase.table('feedback').select('*').order('created_at', desc=True).limit(1).execute()
+            return response.data
+        except Exception as e:
+            return e

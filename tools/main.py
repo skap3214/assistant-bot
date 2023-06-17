@@ -125,8 +125,8 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
                 verbose=verbose, 
                 return_intermediate_steps=True,
                 memory=self.memory,
-                handle_parsing_errors=True
-                # agent_kwargs={"PREFIX" : self.prompt}
+                handle_parsing_errors=True,
+                agent_kwargs={"prefix" : self.prompt, "ai_prefix" : self.name}
                 )
         elif type == "PAE":
             self.executor = load_agent_executor(self.base.llm, self.tools_list, verbose=True)
@@ -145,9 +145,14 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
             return 0
         
         response = self.agent({"input":query})
+        intermediate_steps = response['intermediate_steps']
+        data = {
+                'message' : query,
+                'response' : response['output'],
+                'verbose' : intermediate_steps
+            }
         db_query = None
         if not self.incognito:
-            intermediate_steps = response['intermediate_steps']
             data = {
                 'message' : query,
                 'response' : response['output'],
@@ -158,5 +163,5 @@ Overall, {self.name} is a powerful system that can help with a wide range of tas
         if self.tts:
             convert_text_to_speech(response['output'])
 
-        return response,db_query
+        return data,db_query
 

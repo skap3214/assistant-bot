@@ -2,6 +2,16 @@
 Goal: The goal is to have an AI assistant that can do anything and everything for you. It has access to as many tools as it needs and will perform any tasks the user gives it. It has access to long term memory, your files, the terminal and much more so that it can perform tasks at just a request by the user.
 I currently use Langchain as my foundation to build my bot.
 
+## Features in Progress
+Creating an agent that can improve over time. The agent comprises of 3 sub agents:
+- Feedback Agent: provides and updates feedback based on the current user interaction
+- Planner Agent: creates a step by step plan based on feedback, chat history, tools list
+- Executor Agent: Executes the instructions outlined by the Planner agent.
+
+This creates an agent that can improve over time as the user interacts with it more. It sort of reflects on every interaction it has with the user. I have currently added code for this agent in the agent folder.
+
+
+Once the user enters 
 ## Current tools it has access to:
 - Search (DuckDuckGo)
 - SceneXplain (image to text)
@@ -52,10 +62,7 @@ message (varchar)
 response (varchar)
 verbose (varchar)
 
-will add more fields later
-
 The incognito mode, which is a param in the initiate_agent() method as 'incoginto' is Default set to False. If you switch it on. The agent will not save the **new interactions** in the session.
 
 ## Transient Memory
 Memory currently uses the Langchain implemented ConversationTokenBufferMemory which holds most recent memory maxed to the token limit set. I am in the process of experimenting with combined memory stores but that may take a while.
-
