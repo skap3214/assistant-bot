@@ -10,20 +10,22 @@ Creating an agent that can improve over time. The agent comprises of 3 sub agent
 
 This creates an agent that can improve over time as the user interacts with it more. It sort of reflects on every interaction it has with the user. I have currently added code for this agent in the agent folder.
 
+The feedback plan execute agent code is almost done and you can run it in the combined.py file inside the agent folder. Feedback update has not yet been added but will soon be added once supabase is fully linked to the agent. Once this agent is complete, I will remove the original CustomAgent() class. 
 
-Once the user enters 
 ## Current tools it has access to:
 - Search (DuckDuckGo)
 - SceneXplain (image to text)
 - Math
-- File management(temporarily disabled because it does not work :) )
 - Python repl
 - Gradio Tools (TextToImage, TextToVideo, ImageCaptioning, PromptGenerator)
 - ArXiv Tool
 - Terminal tool (Opens terminal at current working dir)
-- requests tool - can parse through webpages
 - Add Song tool - can add a song to a specific spotify playlist
 - Add file link to google drive folder - can add any public file link to google drive (Using IFTTT)
+- PlayWright Browser Toolkit
+
+Removed:
+requests, file management toolkit
 
 Looking to add much much more.
 
@@ -46,9 +48,9 @@ To run the add song tool, add to google drive tool create an IFTTT applet with a
 Instructions to add an IFTTT webhook over here:
 https://python.langchain.com/en/latest/modules/agents/tools/examples/ifttt.html
 
-frontend development in progress
+frontend development in progress (Thinking of using either React native, SwiftUI or Discord)
 
-Navigate to main.py in the root dir and run that file on your terminal after your setup is done.
+Navigate to main.py in the root dir and run that file on your terminal after your setup is done OR to try out the new experimental reinforced agent, go to agents/combined and run the test code.
 
 ## Persistent Memory
 Supbase is used to store the long term memory. By defualt in the initiate_agent() method, the long_term_memory param is 'True'. This will get the memory from the Supabase DB.
