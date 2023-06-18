@@ -17,6 +17,11 @@ from base import BaseClass, FeedbackDB
 from agent.feedback import FeedbackAgent
 
 #Tools
+
+#Additional Browser Tool
+from langchain.agents.agent_toolkits import PlayWrightBrowserToolkit
+from langchain.tools.playwright.utils import (create_sync_playwright_browser,create_async_playwright_browser)
+
 from tools.search.main import search_tool
 # from tools.file_management.main import file_tools
 from tools.math.main import math_tool
@@ -30,7 +35,11 @@ from tools.spotify.main import add_song_tool
 from tools.google_drive.main import add_to_google_drive_tool
 from tools.elevenlabs.main import convert_text_to_speech
 from tools.call_my_device.main import find_my_device_tool
+# from playwright.sync_api import sync_playwright
 # from tools.gradio.main import gradio_tools
+sync_browser = create_sync_playwright_browser()
+browser_toolkit = PlayWrightBrowserToolkit(sync_browser=sync_browser)
+browser_tools = browser_toolkit.get_tools()
 
 base = BaseClass()
 feedback_agent = FeedbackAgent()
@@ -57,17 +66,19 @@ This is the user input:
 Assistant:
 """
 tools_list = []
-tools_list.extend(search_tool() +
+tools_list.extend(
+    search_tool() +
     math_tool(base.llm) +
     image_tool() +
     human_tool() +
     terminal_tool() +
     arxiv_tool() +
     python_tool() +
-    request_tools() +
+    # request_tools() +
     add_song_tool() +
     add_to_google_drive_tool() +
     find_my_device_tool()
+    # browser_tools
 )
 
 #Create tools string to give prompt
@@ -102,9 +113,5 @@ class Planner:
           memory=memory,
     )
 
-#Test
-plan = Planner()
-output = plan.planner_chain.predict(
-      input="What is the weather going to be like tomorrow in Chennai,India?"
-)
-print(output)
+    def plan(self,query:str):
+          return self.planner_chain.predict(input=query)
