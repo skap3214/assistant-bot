@@ -31,4 +31,4 @@ class LearningAgent:
 agent = LearningAgent()
 while True:
     task = input("Ask me a question:\n")
-    print(agent.run())
+    print(agent.run(task))
