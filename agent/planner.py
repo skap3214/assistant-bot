@@ -67,7 +67,7 @@ Assistant:
 """
 tools_list = []
 tools_list.extend(
-    search_tool() +
+    # search_tool() +
     math_tool(base.llm) +
     image_tool() +
     human_tool() +
@@ -77,8 +77,8 @@ tools_list.extend(
     # request_tools() +
     add_song_tool() +
     add_to_google_drive_tool() +
-    find_my_device_tool()
-    # browser_tools
+    find_my_device_tool() +
+    browser_tools
 )
 
 #Create tools string to give prompt
@@ -98,12 +98,12 @@ planner_prompt = planner_prompt.partial(
 
 class Planner:
     memory = ConversationTokenBufferMemory(llm=base.llm, return_messages=True, memory_key='chat_history',human_prefix='user', input_key='input', max_token_limit=2100)
-    history = base.get_all_history()
-    for row in history:
-            message = row['message']
-            output = row['response']
-            #Add message, output to agent memory
-            memory.save_context({"input":message},{"output":output})
+    # history = base.get_all_history()
+    # for row in history:
+    #         message = row['message']
+    #         output = row['response']
+    #         #Add message, output to agent memory
+    #         memory.save_context({"input":message},{"output":output})
 
     # Create planner chain
     planner_chain = LLMChain(
